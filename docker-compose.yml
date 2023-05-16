@@ -1,27 +1,22 @@
 version: '3.5'
 
 services:
-  redix:
-    image: redix.latest
+  redis:
+    image: redis:latest
     container_name: redis_fastapi_db
-    port:
-      - 6379:6379
-    command: ['redis-server', '--appemdonly', 'yes']
+    ports:
+      - "6379:6379"
+    command: ['redis-server', '--appendonly', 'yes']
     volumes:
       - redis-data:/data
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
+  redisinsight:
+    image: redislabs/redisinsight:latest
     container_name: redis_ui
-    environment:
-      - REDIS_HOSTS= LOCAL:redis:6379
-      - HTTP_USER = admin
-      - HTTP_PASSWORD = admin
     ports:
-      - 8081: 8081
+      - "8081:8001"
     depends_on:
       - redis
 
 volumes:
   redis-data:
-  
