@@ -2,16 +2,20 @@ from redis import Redis
 from redis.exceptions import ConnectionError
 from os import getenv
 
-class connection:
-    def connection_database()-> None : 
+class Connection:
+    __client_redis : None
+    
+    def __init__(self):
+        self.__client_redis  = Connection.connection_database(self)
+    def connection_database(self)-> None : 
         try:
-            __client_redis = Redis(
+            self.__client_redis = Redis(
             host= 'REDIS_HOST',
             port= 'REDIS_PORT',
             password= 'REDIS_PASSWORD',
             )
 
-            __client_redis.set('foo','bar')
+            self.__client_redis.set('foo','bar')
             print('CONNECTED TO DATABASE')
         except ConnectionError as e:
             print(e)
